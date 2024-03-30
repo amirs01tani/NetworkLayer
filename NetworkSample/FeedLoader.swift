@@ -34,6 +34,8 @@ protocol TokenProvider {
 class AuthenticatedHTTPClientDecorator: HTTPClient {
     let client: HTTPClient
     let tokenProvider: TokenProvider
+    var needAuth: (()->Void)?
+    
     init(client: HTTPClient, tokenProvider: TokenProvider) {
         self.client = client
         self.tokenProvider = tokenProvider
@@ -48,6 +50,12 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
                 return signedRequest
             }
             .flatMap(client.publisher)
-            .eraseToAnyPublisher()
+            .handleEvents(receiveCompletion: { [needAuth] completion in
+                if case let Subscribers.Completion<Error>.failure(error) = completion,
+                   case APIErrorHandler.tokenExpired? = error as? APIErrorHandler {
+                    needAuth?()
+                }
+            }).eraseToAnyPublisher()
     }
 }
+
