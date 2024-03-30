@@ -15,6 +15,7 @@
 		298BF3BD2BB84B8200AAE805 /* NetworkSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BF3BC2BB84B8200AAE805 /* NetworkSampleUITests.swift */; };
 		298BF3BF2BB84B8200AAE805 /* NetworkSampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BF3BE2BB84B8200AAE805 /* NetworkSampleUITestsLaunchTests.swift */; };
 		298BF3CC2BB84BC000AAE805 /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BF3CB2BB84BC000AAE805 /* FeedLoader.swift */; };
+		298BF3CE2BB8541000AAE805 /* AuthenticationJWTDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298BF3CD2BB8541000AAE805 /* AuthenticationJWTDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		298BF3BC2BB84B8200AAE805 /* NetworkSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSampleUITests.swift; sourceTree = "<group>"; };
 		298BF3BE2BB84B8200AAE805 /* NetworkSampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		298BF3CB2BB84BC000AAE805 /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
+		298BF3CD2BB8541000AAE805 /* AuthenticationJWTDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationJWTDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				298BF3A62BB84B8200AAE805 /* NetworkSample.entitlements */,
 				298BF3A72BB84B8200AAE805 /* Preview Content */,
 				298BF3CB2BB84BC000AAE805 /* FeedLoader.swift */,
+				298BF3CD2BB8541000AAE805 /* AuthenticationJWTDTO.swift */,
 			);
 			path = NetworkSample;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				298BF3CC2BB84BC000AAE805 /* FeedLoader.swift in Sources */,
+				298BF3CE2BB8541000AAE805 /* AuthenticationJWTDTO.swift in Sources */,
 				298BF3A32BB84B8100AAE805 /* ContentView.swift in Sources */,
 				298BF3A12BB84B8100AAE805 /* NetworkSampleApp.swift in Sources */,
 			);

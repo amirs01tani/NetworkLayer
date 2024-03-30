@@ -26,3 +26,28 @@ extension URLSession: HTTPClient {
             .eraseToAnyPublisher()
     }
 }
+
+protocol TokenProvider {
+    func tokenPublisher() -> AnyPublisher<AuthenticationJWTDTO, Error>
+}
+
+class AuthenticatedHTTPClientDecorator: HTTPClient {
+    let client: HTTPClient
+    let tokenProvider: TokenProvider
+    init(client: HTTPClient, tokenProvider: TokenProvider) {
+        self.client = client
+        self.tokenProvider = tokenProvider
+    }
+    func publisher(_ request: URLRequest) -> AnyPublisher<(Data, HTTPURLResponse), Error> {
+        return tokenProvider
+            .tokenPublisher()
+            .map { token in
+                var signedRequest = request
+                signedRequest.allHTTPHeaderFields?.removeValue(forKey: "Authorization")
+                signedRequest.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
+                return signedRequest
+            }
+            .flatMap(client.publisher)
+            .eraseToAnyPublisher()
+    }
+}
