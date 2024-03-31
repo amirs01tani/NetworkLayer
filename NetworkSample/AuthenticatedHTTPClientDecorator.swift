@@ -1,40 +1,22 @@
 //
-//  FeedLoader.swift
+//  AuthenticatedHTTPClientSession.swift
 //  NetworkSample
 //
-//  Created by Amir on 3/30/24.
+//  Created by Amir on 3/31/24.
 //
 
 import Foundation
 import Combine
 
-protocol HTTPClient {
-    func publisher(_ request: URLRequest) -> AnyPublisher<(Data, HTTPURLResponse), Error>
-}
-
-extension URLSession: HTTPClient {
-    struct InvalidHTTPResponseError: Error{}
-    func publisher(_ request: URLRequest) -> AnyPublisher<(Data, HTTPURLResponse), Error> {
-        return dataTaskPublisher(for: request)
-            .tryMap({ result in
-                guard
-                    let httpResponse = result.response as? HTTPURLResponse else {
-                    throw InvalidHTTPResponseError()
-                }
-                return(result.data, httpResponse)
-            })
-            .eraseToAnyPublisher()
-    }
-}
-
 protocol TokenProvider {
-    func tokenPublisher() -> AnyPublisher<AuthenticationJWTDTO, Error>
+    func tokenPublisher() -> AnyPublisher<String, Error>
 }
 
 class AuthenticatedHTTPClientDecorator: HTTPClient {
     let client: HTTPClient
     let tokenProvider: TokenProvider
-    var needAuth: (()->Void)?
+    var needAuth: (()->Void)?//PassthroughSubject<Void, Never>
+    
     
     init(client: HTTPClient, tokenProvider: TokenProvider) {
         self.client = client
@@ -46,7 +28,7 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
             .map { token in
                 var signedRequest = request
                 signedRequest.allHTTPHeaderFields?.removeValue(forKey: "Authorization")
-                signedRequest.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
+                signedRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
                 return signedRequest
             }
             .flatMap(client.publisher)
@@ -58,4 +40,3 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
             }).eraseToAnyPublisher()
     }
 }
-
