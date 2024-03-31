@@ -15,13 +15,13 @@ protocol TokenProvider {
 class AuthenticatedHTTPClientDecorator: HTTPClient {
     let client: HTTPClient
     let tokenProvider: TokenProvider
-    var needAuth: (()->Void)?//PassthroughSubject<Void, Never>
-    
+    var needAuth: (()->Void)?
     
     init(client: HTTPClient, tokenProvider: TokenProvider) {
         self.client = client
         self.tokenProvider = tokenProvider
     }
+    
     func publisher(_ request: URLRequest) -> AnyPublisher<(Data, HTTPURLResponse), Error> {
         return tokenProvider
             .tokenPublisher()

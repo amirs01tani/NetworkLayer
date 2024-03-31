@@ -9,12 +9,6 @@ import Foundation
 
 struct CountryListMapper {
     static func map(data: Data, response: HTTPURLResponse) throws -> [CountryDTO] {
-        if response.statusCode == 204 {
-            
-        }
-        if response.statusCode == 200 {
-            
-        }
         if response.statusCode == 401 {
             throw APIErrorHandler.tokenExpired
         }
